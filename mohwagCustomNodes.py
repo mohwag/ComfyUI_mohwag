@@ -82,8 +82,8 @@ imageFromBatchMethod = ImageFromBatch().frombatch  #self, image, batch_index, le
 from comfy_extras.nodes_clip_sdxl import CLIPTextEncodeSDXL
 clipTextEncodeSDXL_Method = CLIPTextEncodeSDXL().encode  #(self, clip, width, height, crop_w, crop_h, target_width, target_height, text_g, text_l)
 
-clipsegPathFix = importlib.import_module('custom_nodes.ComfyUI-CLIPSeg.custom_nodes.clipseg') #self, image: torch.Tensor, text: str, blur: float, threshold: float, dilation_factor: int) -> Tuple[torch.Tensor, torch.Tensor, torch.Tensor]:
-clipSegMethod = clipsegPathFix.CLIPSeg().segment_image    #clipsegPathFix().segment_image
+#clipsegPathFix = importlib.import_module('custom_nodes.ComfyUI-CLIPSeg.custom_nodes.clipseg') #self, image: torch.Tensor, text: str, blur: float, threshold: float, dilation_factor: int) -> Tuple[torch.Tensor, torch.Tensor, torch.Tensor]:
+#clipSegMethod = clipsegPathFix.CLIPSeg().segment_image    #clipsegPathFix().segment_image
 
 
 def sdxl_cond_sizes(asPipe_actual, arefImgsPixelMult):
@@ -3818,7 +3818,7 @@ class mwMaskBoundingBoxRF64:  ##################################################
         return (outputS, outputPS, raw_bb, stndMask, raw_img)
 
 
-class mwCLIPSeg:
+""" class mwCLIPSeg:
     @classmethod
     def INPUT_TYPES(s):
         return {"required":
@@ -3842,7 +3842,7 @@ class mwCLIPSeg:
         recMask, recHeatMapImg, recBW_Img = clipSegMethod(image, text, blur, threshold, dilation_factor)
         
         stndMask = imageToMaskMethod(recBW_Img, "green") [0] #(self, image, channel = "green")
-        return recMask, stndMask, recHeatMapImg, recBW_Img
+        return recMask, stndMask, recHeatMapImg, recBW_Img """
 
 
 class mwMaskConvert:
@@ -4095,7 +4095,7 @@ NODE_CLASS_MAPPINGS = {
 "mwMaskBoundingBoxRaw": mwMaskBoundingBoxRaw,
 "mwpsScale_LtntConform": mwpsScale_LtntConform,
 "mwMaskBoundingBoxRF64": mwMaskBoundingBoxRF64,
-"mwCLIPSeg": mwCLIPSeg,
+#"mwCLIPSeg": mwCLIPSeg,
 "mwMaskConvert": mwMaskConvert,
 #"mwTester_ConditioningAverage":mwTester_ConditioningAverage,
 #"mwTester_CLIPTextEncodeSDXL": mwTester_CLIPTextEncodeSDXL,
@@ -4200,7 +4200,7 @@ NODE_DISPLAY_NAME_MAPPINGS = {
 "mwMaskBoundingBoxRaw": "MaskBoundingBoxRaw",
 "mwpsScale_LtntConform": "psScale_LtntConform",
 "mwMaskBoundingBoxRF64": "MaskBoundingBoxRF64",
-"mwCLIPSeg": "CLIPSeg",
+#"mwCLIPSeg": "CLIPSeg",
 "mwMaskConvert": "MaskConvert",
 #"mwTester_ConditioningAverage":"Tester_ConditioningAverage",
 #"mwTester_CLIPTextEncodeSDXL": "Tester_CLIPTextEncodeSDXL",
