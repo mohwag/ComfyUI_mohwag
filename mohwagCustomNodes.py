@@ -1,6 +1,3 @@
-#main_branchTest0
-#vs_branchTest0
-
 import torch
 
 import os
