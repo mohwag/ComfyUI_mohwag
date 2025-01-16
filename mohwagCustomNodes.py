@@ -40,7 +40,9 @@ from torchvision.transforms import functional as TF
 from pathlib import Path
 
 #pulling in funcs
-from nodes import MAX_RESOLUTION, ConditioningSetArea, CheckpointLoaderSimple, ImageScale, EmptyLatentImage, ConditioningCombine, ConditioningAverage, ConditioningConcat, ConditioningSetTimestepRange, ConditioningSetAreaStrength, CLIPSetLastLayer, ImageBatch, ControlNetLoader, ControlNetApplyAdvanced, LatentUpscale, VAEEncode, common_ksampler
+from nodes import MAX_RESOLUTION, ConditioningSetArea, CheckpointLoaderSimple, ImageScale, EmptyLatentImage, ConditioningCombine\
+    , ConditioningAverage, ConditioningConcat, ConditioningSetTimestepRange, ConditioningSetAreaStrength, CLIPSetLastLayer, ImageBatch\
+        , ControlNetLoader, ControlNetApplyAdvanced, LatentUpscale, VAEEncode, common_ksampler
 condSetAreaMethod = ConditioningSetArea().append
 imageScaleMethod = ImageScale().upscale  #(self, image, upscale_method, width, height, crop)
 emptyLatentImageMethod = EmptyLatentImage().generate  #(self, width, height, batch_size=1)
@@ -61,7 +63,8 @@ modelMergeMethod = ModelMergeSimple().merge
 clipMergeMethod = CLIPMergeSimple().merge
 ckptLoaderSimpleMethod = CheckpointLoaderSimple().load_checkpoint
 
-from comfy_extras.nodes_mask import SolidMask, MaskComposite, FeatherMask, InvertMask, ImageCompositeMasked, MaskToImage, LatentCompositeMasked, ImageToMask  #composite, 
+from comfy_extras.nodes_mask import SolidMask, MaskComposite, FeatherMask, InvertMask, ImageCompositeMasked, MaskToImage\
+    , LatentCompositeMasked, ImageToMask, ThresholdMask
 solidMaskMethod = SolidMask().solid  #(self, value, width, height)
 maskCompositeMethod = MaskComposite().combine  #(self, destination, source, x, y, operation)
 featherMaskMethod = FeatherMask().feather  #(self, mask, left, top, right, bottom)
@@ -70,6 +73,7 @@ imageCompositeMaskedMethod = ImageCompositeMasked().composite  #(self, destinati
 maskToImageMethod = MaskToImage().mask_to_image  #(self, mask)
 latentCompositeMaskedMethod = LatentCompositeMasked().composite  #(self, destination, source, x, y, resize_source, mask = None):
 imageToMaskMethod = ImageToMask().image_to_mask  #(self, image, channel = "green")
+maskThresholdMethod = ThresholdMask.image_to_mask()   #(self, mask, value)
 
 from comfy_extras.nodes_images import ImageCrop, ImageFromBatch
 imageCropMethod = ImageCrop().crop  #(self, image, width, height, x, y)
@@ -377,15 +381,18 @@ class mwMaskTweak:
             if operation3 != "none":
                 outMask = maskCompositeMethod(outMask, outMask, 0, 0, operation3)[0]
         if outputMod == "val1_only":
-            w, h = mwMaskTo_sPipeMethod(mask)[0]
+            """ w, h = mwMaskTo_sPipeMethod(mask)[0]
             mask1Val = solidMaskMethod(1.0, w, h)[0]
-            outMask = mwMaskCompSameSizeMethod(outMask, mask1Val, "and")[0]
+            outMask = mwMaskCompSameSizeMethod(outMask, mask1Val, "and")[0] """
+            outMask = maskThresholdMethod(outMask, 0.99)[0]
         if outputMod == "val0_only":
             inverted_mask = invertMaskMethod(outMask)[0]   #(self, mask)
-            w, h = mwMaskTo_sPipeMethod(mask)[0]
+            """ w, h = mwMaskTo_sPipeMethod(mask)[0]
             mask1Val = solidMaskMethod(1.0, w, h)[0]
-            inverted_mask_val1 = mwMaskCompSameSizeMethod(inverted_mask, mask1Val, "and")[0]
+            inverted_mask_val1 = mwMaskCompSameSizeMethod(inverted_mask, mask1Val, "and")[0]"""
+            inverted_mask_val1 = maskThresholdMethod(inverted_mask, 0.99)[0]
             outMask = invertMaskMethod(inverted_mask_val1)[0]   #(self, mask)
+
         return (outMask,)
 
 
