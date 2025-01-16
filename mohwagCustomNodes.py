@@ -73,7 +73,7 @@ imageCompositeMaskedMethod = ImageCompositeMasked().composite  #(self, destinati
 maskToImageMethod = MaskToImage().mask_to_image  #(self, mask)
 latentCompositeMaskedMethod = LatentCompositeMasked().composite  #(self, destination, source, x, y, resize_source, mask = None):
 imageToMaskMethod = ImageToMask().image_to_mask  #(self, image, channel = "green")
-maskThresholdMethod = ThresholdMask.image_to_mask()   #(self, mask, value)
+maskThresholdMethod = ThresholdMask().image_to_mask   #(self, mask, value)
 
 from comfy_extras.nodes_images import ImageCrop, ImageFromBatch
 imageCropMethod = ImageCrop().crop  #(self, image, width, height, x, y)
