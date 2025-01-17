@@ -371,15 +371,14 @@ class mwMaskTweak:
     CATEGORY = "mohwag/mask"
     def mwMT(self, mask, operation0, operation1, operation2, operation3, outputMod):
         outMask = mask
-        if outputMod == "as-is":
-            if operation0 != "none":
-                outMask = maskCompositeMethod(outMask, outMask, 0, 0, operation0)[0]
-            if operation1 != "none":
-                outMask = maskCompositeMethod(outMask, outMask, 0, 0, operation1)[0]
-            if operation2 != "none":
-                outMask = maskCompositeMethod(outMask, outMask, 0, 0, operation2)[0]
-            if operation3 != "none":
-                outMask = maskCompositeMethod(outMask, outMask, 0, 0, operation3)[0]
+        if operation0 != "none":
+            outMask = maskCompositeMethod(outMask, outMask, 0, 0, operation0)[0]
+        if operation1 != "none":
+            outMask = maskCompositeMethod(outMask, outMask, 0, 0, operation1)[0]
+        if operation2 != "none":
+            outMask = maskCompositeMethod(outMask, outMask, 0, 0, operation2)[0]
+        if operation3 != "none":
+            outMask = maskCompositeMethod(outMask, outMask, 0, 0, operation3)[0]
         if outputMod == "val1_only":
             """ w, h = mwMaskTo_sPipeMethod(mask)[0]
             mask1Val = solidMaskMethod(1.0, w, h)[0]
