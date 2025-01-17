@@ -2679,7 +2679,7 @@ class mwFullPipeTuple_KSA:
         iCondNeg = negativeTuple[iCond_refnum]
 
         if ltntPipe != None:
-            ltnt, startW, startH, outputW, outPutH = ltntPipe
+            ltnt, startW, startH, outputW, outputH = ltntPipe
             mult8 = (outputW * 8) // startW
         elif sPipeS != None:
             startW, startH = sPipeS
